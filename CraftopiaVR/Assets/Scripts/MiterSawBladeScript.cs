@@ -39,6 +39,9 @@ public class MiterSawBladeScript : MonoBehaviour
             Material woodPlankMaterial = woodPlankToCut.GetComponent<MeshRenderer>().sharedMaterial;
             SlicedHull slicedHull = woodPlankToCut.Slice(CuttingPlaneTransform.position, CuttingPlaneTransform.up, woodPlankMaterial);
 
+            if (slicedHull == null)
+                return;
+
             GameObject lowerPart = slicedHull.CreateLowerHull(woodPlankToCut);
             GameObject upperPart = slicedHull.CreateUpperHull(woodPlankToCut);
 
@@ -48,6 +51,8 @@ public class MiterSawBladeScript : MonoBehaviour
             SetupSlicedWoodPlank(upperPart, woodPlankToCut);
 
             woodPlankToCut = null;
+
+            Debug.Log("CUTTT");
         }
     }
 
@@ -69,49 +74,5 @@ public class MiterSawBladeScript : MonoBehaviour
         xrGrabInteractable.useDynamicAttach = true;
 
         XRGeneralGrabTransformer xrGeneralGrabTransformer = slicedWoodPlank.AddComponent<XRGeneralGrabTransformer>();
-
-        //foreach (Component component in sourceGameObject.GetComponents<Component>())
-        //{
-        //    // Skip the Transform component, as it is required and already exists
-        //    if (component is Transform || component is MeshFilter || component is MeshRenderer) continue;
-
-        //    // Check if the component already exists on the new game object
-        //    Component existingComponent = slideWoodPlank.GetComponent(component.GetType());
-
-        //    if (existingComponent != null)
-        //    {
-        //        // If the component already exists, copy its properties
-        //        foreach (var field in component.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic))
-        //        {
-        //            field.SetValue(existingComponent, field.GetValue(component));
-        //        }
-
-        //        foreach (var prop in component.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic))
-        //        {
-        //            if (prop.CanWrite && prop.CanRead)
-        //            {
-        //                prop.SetValue(existingComponent, prop.GetValue(component));
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // If the component does not exist, add it and copy its properties
-        //        Component copiedComponent = slideWoodPlank.AddComponent(component.GetType());
-
-        //        foreach (var field in component.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic))
-        //        {
-        //            field.SetValue(copiedComponent, field.GetValue(component));
-        //        }
-
-        //        foreach (var prop in component.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic))
-        //        {
-        //            if (prop.CanWrite && prop.CanRead)
-        //            {
-        //                prop.SetValue(copiedComponent, prop.GetValue(component));
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
