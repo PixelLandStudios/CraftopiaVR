@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: ab499a6bffe300b43a5040a408d1e97e
+labels:
+- Material
+- Pbr
+- Plastic
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 128817
+  packageName: PBR Material Bundle Vol1 (445)
+  packageVersion: 1.0
+  assetPath: Assets/PBR Material Bundle Vol1/Ultimate Material Pack 1-2/Material/Plastic/mat_plastic_worn_2.mat
+  uploadId: 409447

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: de60b5a1976f5d84c928b52bd8e13f02
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283487
+  packageName: VR Console Log
+  packageVersion: 1.01
+  assetPath: Assets/Mikenspired/VR Console Log/Scripts/Utility/MoveToObject.cs
+  uploadId: 711023

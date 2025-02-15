@@ -72,6 +72,7 @@ public class MiterSawBladeScript : MonoBehaviour
         xrGrabInteractable.distanceCalculationMode = XRBaseInteractable.DistanceCalculationMode.ColliderPosition;
         xrGrabInteractable.movementType = XRBaseInteractable.MovementType.VelocityTracking;
         xrGrabInteractable.useDynamicAttach = true;
+        xrGrabInteractable.throwOnDetach = false;
 
         XRGeneralGrabTransformer xrGeneralGrabTransformer = slicedWoodPlank.AddComponent<XRGeneralGrabTransformer>();
     }

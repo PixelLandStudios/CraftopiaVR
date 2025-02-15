@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 258ee68951757af469edc4e9630508c3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283487
+  packageName: VR Console Log
+  packageVersion: 1.01
+  assetPath: Assets/Mikenspired/VR Console Log/Examples/XR ToolKit/XRI Affordance
+    Theme/VR Console ColorAffordanceTheme.asset
+  uploadId: 711023

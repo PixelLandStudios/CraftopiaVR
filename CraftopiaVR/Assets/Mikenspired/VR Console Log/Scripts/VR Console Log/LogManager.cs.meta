@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e64c25aecf0f49f4f8f674d85df266ab
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283487
+  packageName: VR Console Log
+  packageVersion: 1.01
+  assetPath: Assets/Mikenspired/VR Console Log/Scripts/VR Console Log/LogManager.cs
+  uploadId: 711023

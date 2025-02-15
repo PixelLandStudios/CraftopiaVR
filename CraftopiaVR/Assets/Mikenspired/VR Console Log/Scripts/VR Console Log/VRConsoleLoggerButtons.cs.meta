@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 8533318b8a0bf8b41a581d29ba2680e2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283487
+  packageName: VR Console Log
+  packageVersion: 1.01
+  assetPath: Assets/Mikenspired/VR Console Log/Scripts/VR Console Log/VRConsoleLoggerButtons.cs
+  uploadId: 711023

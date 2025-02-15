@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b91e8301bd80db040ae7e4b4871bfe8f
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 283487
+  packageName: VR Console Log
+  packageVersion: 1.01
+  assetPath: Assets/Mikenspired/VR Console Log/Scripts/MikeNspired.VRConsoleLog.asmdef
+  uploadId: 711023
