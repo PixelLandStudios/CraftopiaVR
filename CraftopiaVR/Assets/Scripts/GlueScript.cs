@@ -10,10 +10,13 @@ public class GlueScript : MonoBehaviour
     GameObject secondPiece;
     bool stopGluing;
 
+    private bool preserveScale = true;
+    private Vector3 originalScale;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        originalScale = transform.localScale;
     }
 
     // Update is called once per frame
@@ -35,8 +38,18 @@ public class GlueScript : MonoBehaviour
         {
             Debug.Log(other.name);
 
+            this.GetComponent<Rigidbody>().isKinematic = true;
+            this.GetComponent<Rigidbody>().useGravity = false;
+
             if (firstPiece == null)
+            {
                 firstPiece = other.gameObject;
+                stopGluing = true;
+
+                //ParentTo(other.transform);
+
+                StartCoroutine(PauseGluing(2f));
+            }
             else if (secondPiece == null)
             {
                 secondPiece = other.gameObject;
@@ -47,6 +60,39 @@ public class GlueScript : MonoBehaviour
                 StartCoroutine(CombineAfterDelay(3f));
             }
         }
+    }
+
+    public void ParentTo(Transform newParent)
+    {
+        Transform originalParent = transform.parent;
+        transform.SetParent(newParent, true);
+
+        if (preserveScale)
+        {
+            if (newParent != null)
+            {
+                transform.localScale = new Vector3(
+                    originalScale.x / newParent.lossyScale.x,
+                    originalScale.y / newParent.lossyScale.y,
+                    originalScale.z / newParent.lossyScale.z
+                );
+            }
+            else
+            {
+                transform.localScale = originalScale;
+            }
+        }
+    }
+
+    IEnumerator PauseGluing(float delay)
+    {
+        Debug.Log($"Combining meshes in {delay} seconds...");
+
+        // Wait for the specified delay
+        yield return new WaitForSeconds(delay);
+
+        // Combine the meshes after the delay
+        stopGluing = false;
     }
 
     IEnumerator CombineAfterDelay(float delay)
