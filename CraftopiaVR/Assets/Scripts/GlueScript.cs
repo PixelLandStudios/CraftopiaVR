@@ -46,7 +46,8 @@ public class GlueScript : MonoBehaviour
                 firstPiece = other.gameObject;
                 stopGluing = true;
 
-                //ParentTo(other.transform);
+                //Set this game object as a child to other.transform and keep it's transform not affected 
+                ParentTo(other.transform);
 
                 StartCoroutine(PauseGluing(2f));
             }
@@ -64,24 +65,25 @@ public class GlueScript : MonoBehaviour
 
     public void ParentTo(Transform newParent)
     {
-        Transform originalParent = transform.parent;
-        transform.SetParent(newParent, true);
+        // Preserve current world position, rotation, and scale
+        Vector3 worldPosition = transform.position;
+        Quaternion worldRotation = transform.rotation;
+        Vector3 worldScale = transform.lossyScale;
 
-        if (preserveScale)
-        {
-            if (newParent != null)
-            {
-                transform.localScale = new Vector3(
-                    originalScale.x / newParent.lossyScale.x,
-                    originalScale.y / newParent.lossyScale.y,
-                    originalScale.z / newParent.lossyScale.z
-                );
-            }
-            else
-            {
-                transform.localScale = originalScale;
-            }
-        }
+        // Parent to the new transform
+        transform.SetParent(newParent, false); // false means don't keep world position
+
+        // Restore world position and rotation
+        transform.position = worldPosition;
+        transform.rotation = worldRotation;
+
+        // Restore world scale
+        Vector3 parentScale = newParent.lossyScale;
+        transform.localScale = new Vector3(
+            worldScale.x / parentScale.x,
+            worldScale.y / parentScale.y,
+            worldScale.z / parentScale.z
+        );
     }
 
     IEnumerator PauseGluing(float delay)
