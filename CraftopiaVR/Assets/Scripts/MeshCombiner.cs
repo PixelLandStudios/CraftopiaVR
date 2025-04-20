@@ -1,10 +1,10 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Transformers;
 
 public class MeshCombiner : MonoBehaviour
 {
-    public MeshFilter mesh1; // Assign the first mesh in the Inspector
-    public MeshFilter mesh2; // Assign the second mesh in the Inspector
-
     [SerializeField]
     GameObject firstPiece;
 
@@ -60,6 +60,9 @@ public class MeshCombiner : MonoBehaviour
 
     void CombineMeshes()
     {
+        MeshFilter mesh1 = firstPiece.GetComponent<MeshFilter>();
+        MeshFilter mesh2 = secondPiece.GetComponent<MeshFilter>();
+
         if (mesh1 == null || mesh2 == null)
         {
             Debug.LogError("Please assign both meshes in the Inspector.");
@@ -101,17 +104,27 @@ public class MeshCombiner : MonoBehaviour
 
         // Add Rigidbody
         Rigidbody rb = combinedObject.AddComponent<Rigidbody>();
-        rb.useGravity = true;           // Enable gravity
-        rb.isKinematic = false;         // Let physics affect it
+        rb.useGravity = true;
+        rb.isKinematic = true; // Disable until next frame
 
-        // Add a MeshCollider (optional but recommended for physics)
-        //MeshCollider collider = combinedObject.AddComponent<MeshCollider>();
-        //collider.sharedMesh = combinedMesh;
-        //collider.convex = true;         // Required for Rigidbody interaction
+        // Sync physics transforms
+        Physics.SyncTransforms();
 
-        // Disable original renderers
+        // Enable Rigidbody physics after one frame
+        StartCoroutine(EnablePhysicsNextFrame(rb));
+
+        // Disable original mesh renderers
         mesh1.GetComponent<MeshRenderer>().enabled = false;
         mesh2.GetComponent<MeshRenderer>().enabled = false;
+
+        Destroy(mesh1.GetComponent<XRGeneralGrabTransformer>());
+        Destroy(mesh2.GetComponent<XRGeneralGrabTransformer>());
+
+        Destroy(mesh1.GetComponent<XRGrabInteractable>());
+        Destroy(mesh2.GetComponent<XRGrabInteractable>());
+
+        Destroy(mesh1.GetComponent<Rigidbody>());
+        Destroy(mesh2.GetComponent<Rigidbody>());
 
         // Optionally parent the originals to the combined mesh
         mesh1.transform.SetParent(combinedObject.transform, true);
@@ -120,7 +133,11 @@ public class MeshCombiner : MonoBehaviour
         Debug.Log("Meshes combined successfully with Rigidbody and Collider.");
     }
 
-
+    IEnumerator EnablePhysicsNextFrame(Rigidbody rb)
+    {
+        yield return null; // Wait one frame
+        rb.isKinematic = false; // Reactivate physics
+    }
 
     void ReplaceColliderWithConvex(GameObject target, Mesh mesh)
     {
