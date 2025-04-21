@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -47,14 +48,22 @@ public class GlueScript : MonoBehaviour
 
         if (other.CompareTag("WoodPlank"))
         {
-            Debug.Log(other.name);
+            
+
+            GameObject woodPlank = other.gameObject;
+            if (other.gameObject.transform.parent != null)
+            {
+                woodPlank = other.gameObject.transform.parent.gameObject;
+            }
+
+            Debug.Log(woodPlank.name);
 
             this.GetComponent<Rigidbody>().isKinematic = true;
             this.GetComponent<Rigidbody>().useGravity = false;
 
             if (firstPiece == null)
             {
-                firstPiece = other.gameObject;
+                firstPiece = woodPlank;
                 stopGluing = true;
 
                 //Set this game object as a child to other.transform and keep it's transform not affected 
@@ -64,7 +73,7 @@ public class GlueScript : MonoBehaviour
             }
             else if (secondPiece == null)
             {
-                secondPiece = other.gameObject;
+                secondPiece = woodPlank;
 
                 stopGluing = true;
 
@@ -134,6 +143,7 @@ public class GlueScript : MonoBehaviour
         // Create a new GameObject to hold the combined mesh
         string randomNumber = Random.Range(1, 222).ToString();
         GameObject combinedObject = new GameObject("CombinedMesh" + randomNumber);
+        combinedObject.tag = "WoodPlank";
         combinedObject.transform.position = mesh1.transform.position;
         combinedObject.transform.rotation = mesh1.transform.rotation;
         combinedObject.transform.localScale = mesh1.transform.localScale;
@@ -169,8 +179,12 @@ public class GlueScript : MonoBehaviour
         StartCoroutine(EnablePhysicsNextFrame(rb));
 
         // Disable original renderers
-        mesh1.GetComponent<MeshRenderer>().enabled = false;
-        mesh2.GetComponent<MeshRenderer>().enabled = false;
+        //mesh1.GetComponent<MeshRenderer>().enabled = false;
+        //mesh2.GetComponent<MeshRenderer>().enabled = false;
+        Destroy(mesh1.GetComponent<MeshRenderer>());
+        Destroy(mesh2.GetComponent<MeshRenderer>());
+        Destroy(mesh1.GetComponent<MeshFilter>());
+        Destroy(mesh2.GetComponent<MeshFilter>());
 
         // Copy XRGrabInteractable from mesh1
         XRGrabInteractable oldGrab = mesh1.GetComponent<XRGrabInteractable>();
@@ -184,12 +198,18 @@ public class GlueScript : MonoBehaviour
         Destroy(mesh2.GetComponent<Rigidbody>());
 
         // Create a new "Colliders" child object
-        GameObject collidersContainer = new GameObject("Colliders");
-        collidersContainer.transform.SetParent(combinedObject.transform, false);
+        //GameObject collidersContainer = new GameObject("Colliders");
+        //collidersContainer.transform.SetParent(combinedObject.transform, false);
 
-        // Parent the original objects to "Colliders"
-        mesh1.transform.SetParent(collidersContainer.transform, true);
-        mesh2.transform.SetParent(collidersContainer.transform, true);
+        //Debug.Log("Mesh 1:" + mesh1.transform.childCount.ToString());
+        //Debug.Log("Mesh 2:" + mesh2.transform.childCount.ToString());
+
+        //// Parent the original objects to "Colliders"
+        //mesh1.transform.SetParent(combinedObject.transform, true);
+        //mesh2.transform.SetParent(combinedObject.transform, true);
+
+        HandlePlankChildren(mesh1.transform, combinedObject.transform);
+        HandlePlankChildren(mesh2.transform, combinedObject.transform);
 
         // Re-apply XRGrabInteractable
         if (oldGrab != null)
@@ -218,6 +238,36 @@ public class GlueScript : MonoBehaviour
         }
 
         Debug.Log("Meshes combined successfully with XR Grab support.");
+    }
+
+    void HandlePlankChildren(Transform original, Transform combinedObjectTransform)
+    {
+        bool hasPlankChild = false;
+
+        List<Transform> children = new List<Transform>();
+        foreach (Transform child in original)
+        {
+            children.Add(child);
+        }
+
+        foreach (Transform child in children)
+        {
+            if (child.CompareTag("WoodPlank"))
+            {
+                Debug.Log("Transferring Child: " + child.name);
+                hasPlankChild = true;
+                child.SetParent(combinedObjectTransform, true);
+            }
+        }
+
+        if (hasPlankChild)
+        {
+            GameObject.Destroy(original.gameObject);
+        }
+        else
+        {
+            original.SetParent(combinedObjectTransform, true);
+        }
     }
 
     IEnumerator EnablePhysicsNextFrame(Rigidbody rb)
