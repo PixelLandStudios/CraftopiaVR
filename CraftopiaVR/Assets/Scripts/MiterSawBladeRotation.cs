@@ -48,27 +48,31 @@ public class MiterSawBladeRotation : MonoBehaviour
     {
         if (isGrabbed)
         {
-            // Accelerate the blade rotation
-            if (currentRotationSpeed < maxRotationSpeed)
-            {
-                currentRotationSpeed += acceleration * Time.deltaTime;
-                currentRotationSpeed = Mathf.Min(currentRotationSpeed, maxRotationSpeed);
-            }
+            currentRotationSpeed = 2000;
+
+            //// Accelerate the blade rotation
+            //if (currentRotationSpeed < maxRotationSpeed)
+            //{
+            //    currentRotationSpeed += acceleration * Time.deltaTime;
+            //    currentRotationSpeed = Mathf.Min(currentRotationSpeed, maxRotationSpeed);
+            //}
         }
         else
         {
-            // Decelerate the blade rotation
-            if (currentRotationSpeed > 0)
-            {
-                currentRotationSpeed -= deceleration * Time.deltaTime;
-                currentRotationSpeed = Mathf.Max(currentRotationSpeed, 0);
-            }
+            currentRotationSpeed = 0;
+
+            //// Decelerate the blade rotation
+            //if (currentRotationSpeed > 0)
+            //{
+            //    currentRotationSpeed -= 1000 * Time.deltaTime;
+            //    currentRotationSpeed = Mathf.Max(currentRotationSpeed, 0);
+            //}
         }
 
         // Rotate the blade around its Z-axis
         if (bladeTransform != null)
         {
-            bladeTransform.Rotate(0, 0, currentRotationSpeed * Time.deltaTime);
+            bladeTransform.Rotate(0, 0, currentRotationSpeed);
         }
     }
 }

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Paint in 3D/Unlit Overlay
   target: {fileID: 4800000, guid: aac28e43d53472c4abd0ef7857e933ec, type: 3}
-  variantHash: 613628723
-  projectHash: -284236704
+  variantHash: -806201335
+  projectHash: 1419994357
   variants:
   - Pipe: 0
     Code: "//<HASH>613628723</HASH>\n////////////////////////////////////////\n//

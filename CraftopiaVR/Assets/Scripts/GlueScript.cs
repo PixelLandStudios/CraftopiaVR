@@ -13,8 +13,14 @@ public class GlueScript : MonoBehaviour
 
     [SerializeField]
     GameObject secondPiece;
-    bool stopGluing;
 
+    [SerializeField]
+    Material NormalMat;
+
+    [SerializeField]
+    Material ConnectedMat;
+
+    bool stopGluing;
     private bool preserveScale = true;
     private Vector3 originalScale;
     bool piecesReady = false;
@@ -48,8 +54,6 @@ public class GlueScript : MonoBehaviour
 
         if (other.CompareTag("WoodPlank"))
         {
-            
-
             GameObject woodPlank = other.gameObject;
             if (other.gameObject.transform.parent != null)
             {
@@ -76,10 +80,26 @@ public class GlueScript : MonoBehaviour
                 secondPiece = woodPlank;
 
                 stopGluing = true;
-
                 piecesReady = true;
-                //StartCoroutine(CombineAfterDelay(1.5f));
+
+                this.GetComponent<MeshRenderer>().material = ConnectedMat;
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("WoodPlank"))
+        {
+            if (secondPiece != null)
+            {
+                secondPiece = null;
+
+                stopGluing = false;
+                piecesReady = false;
+            }
+
+            this.GetComponent<MeshRenderer>().material = NormalMat;
         }
     }
 

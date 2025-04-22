@@ -124,6 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstPiece: {fileID: 0}
   secondPiece: {fileID: 0}
+  NormalMat: {fileID: 2100000, guid: 66db6b4dcfadc3b4aa34fb02cecc253f, type: 2}
+  ConnectedMat: {fileID: 2100000, guid: 1f48984b0c52460499b745fb815c46f0, type: 2}
 --- !u!54 &6284833373976431214
 Rigidbody:
   m_ObjectHideFlags: 0
