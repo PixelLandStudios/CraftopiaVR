@@ -44,7 +44,7 @@ public class ZAxisRotationConstraint : MonoBehaviour
             Vector3 currentRotation = transform.rotation.eulerAngles;
 
             // Constrain rotation to Z-axis only
-            transform.rotation = Quaternion.Euler(0, 45, currentRotation.z);
+            transform.rotation = Quaternion.Euler(0, 90, currentRotation.z);
         }
     }
 }
