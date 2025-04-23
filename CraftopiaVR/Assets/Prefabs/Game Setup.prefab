@@ -6293,6 +6293,9 @@ MonoBehaviour:
   acceleration: 5000
   deceleration: 4000
   bladeTransform: {fileID: 3250522154864222558}
+  audioSource: {fileID: 0}
+  SawRunningClip: {fileID: 0}
+  SawEndClip: {fileID: 0}
 --- !u!1 &3965323833601761988
 GameObject:
   m_ObjectHideFlags: 0
@@ -9492,6 +9495,7 @@ MonoBehaviour:
   glueDropPrefab: {fileID: 5432672556443378605, guid: 11b23069c96158f4098e00f98d3678d9, type: 3}
   spawnPoint: {fileID: 8204380340724937154}
   triggerAnimation: {fileID: 2488203237108054737}
+  audioSource: {fileID: 0}
 --- !u!1 &5872962299475924593
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,6 +25,8 @@ public class MiterSawBladeScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("ENTERED: " + other.name);
+
         if (other.CompareTag("WoodPlank"))
         {
             Debug.Log("Added");

@@ -20,6 +20,9 @@ public class GlueScript : MonoBehaviour
     [SerializeField]
     Material ConnectedMat;
 
+    [SerializeField]
+    AudioSource audioSource;
+
     bool stopGluing;
     private bool preserveScale = true;
     private Vector3 originalScale;
@@ -41,6 +44,8 @@ public class GlueScript : MonoBehaviour
             {
                 piecesReady = false;
                 //StartCoroutine(CombineAfterDelay(0f)); // Or call CombineMeshes() directly if you want
+
+                GameManager.Instance.PlayClip();
 
                 CombineMeshes();
             }
@@ -81,6 +86,8 @@ public class GlueScript : MonoBehaviour
 
                 stopGluing = true;
                 piecesReady = true;
+
+                audioSource.Play();
 
                 this.GetComponent<MeshRenderer>().material = ConnectedMat;
             }
@@ -192,7 +199,7 @@ public class GlueScript : MonoBehaviour
         // Add Rigidbody
         Rigidbody rb = combinedObject.AddComponent<Rigidbody>();
         rb.useGravity = true;
-        rb.isKinematic = true;
+        rb.isKinematic = false;
 
         // Sync physics
         Physics.SyncTransforms();
@@ -257,6 +264,8 @@ public class GlueScript : MonoBehaviour
             combinedObject.AddComponent<XRGeneralGrabTransformer>();
         }
 
+        audioSource.Play();
+
         Debug.Log("Meshes combined successfully with XR Grab support.");
     }
 
@@ -265,6 +274,7 @@ public class GlueScript : MonoBehaviour
         bool hasPlankChild = false;
 
         List<Transform> children = new List<Transform>();
+        List<Transform> glueDropsChildren = new List<Transform>();
         foreach (Transform child in original)
         {
             children.Add(child);
@@ -278,6 +288,9 @@ public class GlueScript : MonoBehaviour
                 hasPlankChild = true;
                 child.SetParent(combinedObjectTransform, true);
             }
+            else if (child.CompareTag("GlueDrop"))
+                glueDropsChildren.Add(child);
+
         }
 
         if (hasPlankChild)
@@ -287,6 +300,11 @@ public class GlueScript : MonoBehaviour
         else
         {
             original.SetParent(combinedObjectTransform, true);
+        }
+
+        foreach (var glueDrop in glueDropsChildren)
+        {
+            Destroy(glueDrop.gameObject);
         }
     }
 

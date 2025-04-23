@@ -8,6 +8,7 @@ TagManager:
   - MiterSawBase
   - WoodPlank
   - Screw
+  - GlueDrop
   layers:
   - Default
   - TransparentFX

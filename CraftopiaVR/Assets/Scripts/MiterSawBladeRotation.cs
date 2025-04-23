@@ -12,6 +12,11 @@ public class MiterSawBladeRotation : MonoBehaviour
     [Header("Blade Reference")]
     [SerializeField] private Transform bladeTransform; // Serialized field for the blade
 
+    [Header("Audio Reference")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip SawRunningClip;
+    [SerializeField] AudioClip SawEndClip;
+
     private XRGrabInteractable grabInteractable;
     private float currentRotationSpeed = 0f;
     private bool isGrabbed = false;
@@ -36,12 +41,22 @@ public class MiterSawBladeRotation : MonoBehaviour
     {
         // Start rotating when grabbed
         isGrabbed = true;
+
+        audioSource.clip = SawRunningClip;
+        audioSource.Play();
+
+        Debug.Log("Saw Grabbed");
     }
 
     private void OnRelease(SelectExitEventArgs args)
     {
         // Stop rotating when released
         isGrabbed = false;
+
+        audioSource.clip = SawEndClip;
+        audioSource.Play();
+
+        Debug.Log("Saw Released");
     }
 
     void Update()

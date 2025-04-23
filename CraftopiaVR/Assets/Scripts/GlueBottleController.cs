@@ -10,6 +10,9 @@ public class GlueBottleController : MonoBehaviour
     [SerializeField]
     Animation triggerAnimation;
 
+    [SerializeField]
+    AudioSource audioSource;
+
     private XRGrabInteractable grabInteractable;
     private bool isGrabbed = false;
 
@@ -42,6 +45,7 @@ public class GlueBottleController : MonoBehaviour
             GameObject glueDrop = Instantiate(glueDropPrefab, spawnPoint.position, spawnPoint.rotation);
 
             triggerAnimation.Play();
+            audioSource.Play();
         }
     }
 
