@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.XR.Interaction.Toolkit.Interactables; // Add this namespace
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class ZAxisRotationConstraint : MonoBehaviour
 {
@@ -8,43 +8,36 @@ public class ZAxisRotationConstraint : MonoBehaviour
     private Quaternion initialRotation;
     private Vector3 initialPosition;
 
-    void Start()
+    void Awake()
     {
-        // Get the XRGrabInteractable component
         grabInteractable = GetComponent<XRGrabInteractable>();
-
-        // Add listeners for grab and release events
         grabInteractable.selectEntered.AddListener(OnGrab);
         grabInteractable.selectExited.AddListener(OnRelease);
     }
 
     private void OnGrab(SelectEnterEventArgs args)
     {
-        // Store the initial rotation and position when grabbed
-        initialRotation = transform.rotation;
         initialPosition = transform.position;
+        initialRotation = transform.rotation;
     }
 
     private void OnRelease(SelectExitEventArgs args)
     {
-        // Reset to the initial rotation and position when released
-        transform.rotation = initialRotation;
+        // Optional: reset everything on release
         transform.position = initialPosition;
+        transform.rotation = initialRotation;
     }
 
-    void Update()
+    void LateUpdate()
     {
-        // Check if the object is currently grabbed
         if (grabInteractable.isSelected)
         {
-            // Freeze the position to the initial position
+            // Re-lock the position hard every frame
             transform.position = initialPosition;
 
-            // Get the current rotation
-            Vector3 currentRotation = transform.rotation.eulerAngles;
-
-            // Constrain rotation to Z-axis only
-            transform.rotation = Quaternion.Euler(0, 90, currentRotation.z);
+            // Allow only Z-axis rotation, with a fixed base rotation
+            float z = transform.localEulerAngles.z;
+            transform.localRotation = Quaternion.Euler(0f, 90f, z); // 90f assumes Y is forward
         }
     }
 }

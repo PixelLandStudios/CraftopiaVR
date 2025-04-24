@@ -44,8 +44,6 @@ public class MiterSawBladeRotation : MonoBehaviour
 
         audioSource.clip = SawRunningClip;
         audioSource.Play();
-
-        Debug.Log("Saw Grabbed");
     }
 
     private void OnRelease(SelectExitEventArgs args)
@@ -55,8 +53,6 @@ public class MiterSawBladeRotation : MonoBehaviour
 
         audioSource.clip = SawEndClip;
         audioSource.Play();
-
-        Debug.Log("Saw Released");
     }
 
     void Update()
